@@ -1,0 +1,259 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="shortcut icon" href="../assets/icon/favicon2.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaTech | Dashboards</title>
+    <link rel="stylesheet" href="./../css/dashboards.css">
+    <link rel="stylesheet" href="./../css/estilo.css" />
+    <script src="../js/sessao.js"></script>
+    <script src="./../js/alerta.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://kit.fontawesome.com/9f7414eb10.js" crossorigin="anonymous"></script>
+</head>
+
+
+<body style="background-color: white;">
+    <div class="content">
+        <label for="quizSelect">Selecione o Quiz:</label>
+        <select id="quizSelect" onchange="obterDadosGrafico()" style="margin-left: 10vw;">
+            <option value="0" selected> Selecione um Quiz</option>
+            <option value="1">Quiz sobre Beach Tennis</option>
+            <option value="2">Quiz sobre Marcas de Beach Tennis</option>
+        </select>
+        <div class="graph-container">
+            <canvas id="myChartCanvas" class="canvas-container"></canvas>
+        </div>
+    </div>
+
+</body>
+    <script>
+        // Defina chartInstance como null
+        let chartInstance = null;
+
+        function obterDadosGrafico() {
+            const quizId = document.getElementById('quizSelect').value;
+            fetch(`/medidas/quiz/${quizId}`, { cache: 'no-store' }).then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        plotarGrafico(resposta);
+                    });
+                } else {
+                    console.error('Nenhum dado encontrado ou erro na API');
+                }
+            }).catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+        }
+
+        function plotarGrafico(resposta) {
+            const ctx = document.getElementById('myChartCanvas').getContext('2d');
+
+            // Verifique se a resposta não está vazia antes de prosseguir
+            if (resposta.length === 0) {
+                console.error('Resposta da API vazia');
+                return;
+            }
+
+            // Mapeie os dados da resposta corretamente
+            const acertos = resposta.map(item => item.qtdAcertos);
+            const erros = acertos.map(acerto => 10 - acerto); // Calcula o número de erros
+
+            const labels = resposta.map((item, index) => `Tentativa ${index + 1}`);
+
+            // Verifique se chartInstance é diferente de null antes de chamar destroy()
+            if (chartInstance !== null) {
+                chartInstance.destroy();
+            }
+
+            console.log(acertos);
+
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Acertos',
+                        data: acertos,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Erros',
+                        data: erros,
+                        backgroundColor: 'rgba(199, 52, 52, 0.2)',
+                        borderColor: 'rgba(199, 52, 52, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</html>
+=======
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="icon" href="../assets/saque.jpeg">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beachlife | Dashboard</title>
+    <link rel="stylesheet" href="./../css/dashboards.css">
+    <link rel="stylesheet" href="./../css/estilo.css" />
+    <script src="../js/sessao.js"></script>
+    <script src="./../js/alerta.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://kit.fontawesome.com/9f7414eb10.js" crossorigin="anonymous"></script>
+</head>
+
+
+<body style="background-color: white;">
+
+    <div class="navigation">
+        <ul>
+            <li>
+                <span class="title"
+                    style="color: cornsilk; font-size: large; text-align: center;padding-left: 80px; font-size: 30px;"><b>BeachLife</b></span>
+            </li><br>
+            <li class="list">
+                <div class="hello">
+                    <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+                </div>
+            </li><br>
+
+            <li class="list">
+                <a href="cards.html">
+                    <span class="icon"><ion-icon name="tennisball-outline"></ion-icon></span>
+                    <span class="title">Introdução</span>
+                </a>
+            </li>
+            <li class="list active">
+                <a href="./dashboard.html">
+                    <span class="icon"><ion-icon name="cellular-outline"></ion-icon></span>
+                    <span class="title">Gráfico</span>
+                </a>
+            </li>
+            <li class="list">
+                <a href="mural.html">
+                    <span class="icon"> <ion-icon name="chatbubble-ellipses-outline"></ion-icon></span>
+                    <span class="title">Mural de mensagens</span>
+                </a>
+            </li>
+
+            <li class="list">
+                <a href="../index.html">
+                    <span class="icon"><ion-icon name="exit-outline"></ion-icon></span>
+                    <span class="title">Sair</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    </div>
+
+    <div class="content">
+        <label for="quizSelect"></label>
+        <select id="quizSelect" onchange="obterDadosGrafico()" style="margin-left: 10vw;">
+            <option value="0" selected> Mostrar grafico</option>
+            <option value="1">Quiz sobre Beach Tennis</option>
+
+        </select>
+        <div class="graph-container">
+            <canvas id="myChartCanvas" class="canvas-container"></canvas>
+        </div>
+    </div>
+
+</body>
+<script>
+    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+    // Defina chartInstance como null
+    let chartInstance = null;
+
+    function obterDadosGrafico() {
+        const Id_usuario = Number(sessionStorage.ID_USUARIO)
+        fetch(`/medidas/quiz/${Id_usuario}`, { cache: 'no-store' }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    plotarGrafico(resposta);
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        }).catch(function (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        });
+    }
+
+    function plotarGrafico(resposta) {
+        const ctx = document.getElementById('myChartCanvas').getContext('2d');
+
+        // Verifique se a resposta não está vazia antes de prosseguir
+        if (resposta.length === 0) {
+            console.error('Resposta da API vazia');
+            return;
+        }
+
+        // Mapeie os dados da resposta corretamente
+        const acertos = resposta.map(item => item.qtdAcertos);
+        const erros = acertos.map(acerto => 8 - acerto); // Calcula o número de erros
+
+        const labels = resposta.map((item, index) => `Tentativa ${index + 1}`);
+
+        // Verifique se chartInstance é diferente de null antes de chamar destroy()
+        if (chartInstance !== null) {
+            chartInstance.destroy();
+        }
+
+        console.log(acertos);
+
+        chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Acertos',
+                    data: acertos,
+                    // backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    backgroundColor: 'rgba(0,255,0, 0.2)',
+                    borderColor: 'rgba(0,255,0, 1)',
+                    borderWidth: 1
+                }, {
+                    label: 'Erros',
+                    data: erros,
+                    backgroundColor: 'rgba(199, 52, 52, 0.2)',
+                    borderColor: 'rgba(199, 52, 52, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+</script>
+
+</html>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+>>>>>>> 6c63efa (Finalização do projeto)

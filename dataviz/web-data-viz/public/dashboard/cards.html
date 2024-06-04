@@ -1,0 +1,236 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="../assets/icon/favicon2.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaTech | Tempo Real</title>
+
+
+    <link rel="stylesheet" href="./../css/dashboards.css">
+    <link rel="stylesheet" href="./../css/estilo.css" />
+
+    <script src="../js/sessao.js"></script>
+    <script src="../js/alerta.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body onload="validarSessao(), exibirAquarios(),  atualizacaoPeriodica()">
+
+    <div class="janela">
+
+        <div class="header-left dash-header">
+
+            <h1>Beach Life</h1>
+
+            <div class="hello">
+                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+            </div>
+
+            <div class="btn-nav">
+                <h3>Questionario marca</h3>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./dashboard.html">
+                    <h3>Gráficos</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./mural.html">
+                    <h3>Mural de Avisos</h3>
+                </a>
+            </div>
+
+            <div class="btn-logout" onclick="limparSessao()">
+                <h3>Sair</h3>
+            </div>
+
+        </div>
+
+        <div class="dash">
+            <div id="alerta">
+            </div>
+            <div class="area-parametros-alerta">
+                <p class="titulo-legenda">
+                    Legenda - Parâmetros para Alertas
+                </p>
+                <div class="parametros-alerta">
+                    <div class="item-regua perigo-frio">
+                        <p>Perigo</p>
+                        <p>&lt;=5°C</p>
+                    </div>
+                    <div class="item-regua alerta-frio">
+                        <p>Alerta</p>
+                        <p>&lt;=10°C</p>
+                    </div>
+                    <div class="item-regua ideal">
+                        <p>Ideal</p>
+                        <p>20°C</p>
+                    </div>
+                    <div class="item-regua alerta-quente">
+                        <p>Alerta</p>
+                        <p>&gt;=22°C</p>
+                    </div>
+                    <div class="item-regua perigo-quente">
+                        <p>Perigo</p>
+                        <p>&gt;=23°C</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cards" id="cardAquarios">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+<script>
+
+    function exibirAquarios() {
+        JSON.parse(sessionStorage.AQUARIOS).forEach(item => {
+            document.getElementById("cardAquarios").innerHTML += `
+                    <div class="card-aquario">
+                        <div class="title-aquario">
+                            <h1>${item.descricao}</h1>
+                        </div>
+                        <div class="desc-aquario">
+                        <div class="temperatura">
+                            <p id="temp_aquario_${item.id}">-°C</p>
+                        </div>
+                        <div class="cor-alerta" id="card_${item.id}"></div>
+                    </div>
+                    </div>
+                    `
+        });
+    }
+
+</script>
+
+</html>
+=======
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="../assets/saque.jpeg" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beach Life | Tempo Real</title>
+
+
+    <link rel="stylesheet" href="./../css/dashboards.css">
+    <link rel="stylesheet" href="./../css/estilo.css" />
+
+    <script src="../js/sessao.js"></script>
+    <script src="../js/alerta.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body
+    style="background-image: linear-gradient(to right, #000000, #0c0b0c, #141414, #1b1b1b, #212122); height: 100vh; width: 100vw; overflow-x: hidden;">
+
+    <div class="navigation">
+        <ul>
+            <li>
+                <span class="title"
+                    style="color: cornsilk; font-size: large; text-align: center;padding-left: 80px; font-size: 30px;"><b>
+                        BeachLife</b></span>
+            </li><br>
+            <li class="list">
+                <div class="hello">
+                    <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+                </div>
+            </li><br>
+        
+            <li class="list active">
+                <a href="cards.html">
+                    <span class="icon"><ion-icon name="tennisball-outline"></ion-icon></span>
+                    <span class="title">Introdução</span>
+                </a>
+            </li>
+            <li class="list">
+                <a href="./dashboard.html">
+                    <span class="icon"><ion-icon name="cellular-outline"></ion-icon></span>
+                    <span class="title">Gráfico</span>
+                </a>
+            </li>
+            <li class="list">
+                <a href="mural.html">
+                    <span class="icon"> <ion-icon name="chatbubble-ellipses-outline"></ion-icon></span>
+                    <span class="title">Mural de mensagens</span>
+                </a>
+            </li>
+
+            <li class="list">
+                <a href="../index.html">
+                    <span class="icon"><ion-icon name="exit-outline"></ion-icon></span>
+                    <span class="title">Sair</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="father-card">
+        <div class="card-cards">
+            <div class="card2-card">
+                <div class="img-card" style=" display:flex; justify-content: center;">
+                    <img src="../assets/icon/baixar__14_-removebg-preview.png">
+                </div><br><br><br><br><br><br><br>
+                <div class="text-card">
+                    <p>
+                        Esta dashboard foi criada para apresentar e analisar os
+                        resultados do nosso questionário sobre Beach Tennis.
+                        criada para podermos ver qual seu nivel de entendimento
+                        sobre o esporte.
+                        <br><br><br>
+                        Clique em Graficos no menu lateral.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-cards">
+            <div class="card2-card">
+                <div class="img-card" style=" display:flex; justify-content: center;">
+                    <img src="../assets/icon/download-removebg-preview.png">
+                </div><br><br><br><br><br><br><br>
+                <div class="text-card">
+                    <p>
+                        Este espaço é dedicado a todos os amantes e praticantes de beach tennis.
+                        Podendo até mandar mensagens de carinho para seus atletas preferidos.
+                        <br><br>
+                        Clique em Mural de Mensagens no menu lateral.
+
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script>
+    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+</script>
+>>>>>>> 6c63efa (Finalização do projeto)
