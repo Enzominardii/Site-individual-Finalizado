@@ -1,4 +1,6 @@
 
+// Medida é aonde esta armazenando e mandando as informacoes do quiz para o banco de dados
+
 var express = require("express");
 var router = express.Router();
 

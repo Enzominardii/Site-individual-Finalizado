@@ -1,3 +1,4 @@
+// Medida é aonde esta armazenando e mandando as informacoes do quiz para o banco de dados 
 
 var database = require("../database/config");
 

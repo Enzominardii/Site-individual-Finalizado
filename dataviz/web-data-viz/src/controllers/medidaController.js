@@ -1,4 +1,6 @@
 
+// Medida é aonde esta armazenando e mandando as informacoes do quiz para o banco de dados 
+
 var medidaModel = require("../models/medidaModel");
 
 function buscarPontuacoesPorQuiz(req, res) {
