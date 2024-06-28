@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <link rel="shortcut icon" href="../assets/icon/favicon2.ico" type="image/x-icon">
@@ -102,7 +101,7 @@
         }
     </script>
 </html>
-=======
+======= -->
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -123,8 +122,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://kit.fontawesome.com/9f7414eb10.js" crossorigin="anonymous"></script>
 </head>
-
-
 <body style="background-color: white;">
 
     <div class="navigation">
@@ -204,56 +201,60 @@
     function plotarGrafico(resposta) {
         const ctx = document.getElementById('myChartCanvas').getContext('2d');
 
-        // Verifique se a resposta não está vazia antes de prosseguir
-        if (resposta.length === 0) {
-            console.error('Resposta da API vazia');
-            return;
-        }
+// Verifique se a resposta não está vazia antes de prosseguir
+if (resposta.length === 0) {
+    console.error('Resposta da API vazia');
+    return;
+}
 
-        // Mapeie os dados da resposta corretamente
-        const acertos = resposta.map(item => item.qtdAcertos);
-        const erros = acertos.map(acerto => 8 - acerto); // Calcula o número de erros
+// Mapeie os dados da resposta corretamente
+const temperaturas = resposta.map(item => item.temperatura);
+const labels = resposta.map(item => `${item.data}T${item.hora}:00Z`); // ISO 8601 format
 
-        const labels = resposta.map((item, index) => `Tentativa ${index + 1}`);
+// Verifique se chartInstance é diferente de null antes de chamar destroy()
+if (typeof chartInstance !== 'undefined' && chartInstance !== null) {
+    chartInstance.destroy();
+}
 
-        // Verifique se chartInstance é diferente de null antes de chamar destroy()
-        if (chartInstance !== null) {
-            chartInstance.destroy();
-        }
-
-        console.log(acertos);
-
-        chartInstance = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Acertos',
-                    data: acertos,
-                    // backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    backgroundColor: 'rgba(0,255,0, 0.2)',
-                    borderColor: 'rgba(0,255,0, 1)',
-                    borderWidth: 1
-                }, {
-                    label: 'Erros',
-                    data: erros,
-                    backgroundColor: 'rgba(199, 52, 52, 0.2)',
-                    borderColor: 'rgba(199, 52, 52, 1)',
-                    borderWidth: 1
-                }]
+const chartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Temperatura',
+            data: temperaturas,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            x: {
+                type: 'time',
+                time: {
+                    unit: 'hour',
+                    tooltipFormat: 'YYYY-MM-DD HH:mm'
+                },
+                title: {
+                    display: true,
+                    text: 'Data e Hora'
+                }
             },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Temperatura (°C)'
                 }
             }
-        });
+        }
+    }
+});
     }
 </script>
 
 </html>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
->>>>>>> 6c63efa (Finalização do projeto)
+

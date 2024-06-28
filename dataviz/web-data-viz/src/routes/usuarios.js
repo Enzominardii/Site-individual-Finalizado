@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 var express = require("express");
 var router = express.Router();
 var usuarioController = require("../controllers/usuarioController");
@@ -16,22 +16,4 @@ router.post("/registrarQuiz", function (req, res) {
 });
 
 module.exports = router;
-=======
-var express = require("express");
-var router = express.Router();
-var usuarioController = require("../controllers/usuarioController");
 
-router.post("/cadastrar", function (req, res) {
-    usuarioController.cadastrar(req, res);
-});
-
-router.post("/autenticar", function (req, res) {
-    usuarioController.autenticar(req, res);
-});
-
-router.post("/registrarQuiz", function (req, res) {
-    usuarioController.registrarQuiz(req, res);
-});
-
-module.exports = router;
->>>>>>> 6c63efa (Finalização do projeto)
