@@ -12,13 +12,13 @@ export default [
     ],
   },
   {
-    question: "Qual é a superfície ideal para a prática do beach tennis?",
+    question: "Quem é considerado o jogador de beach tennis mais bem-sucedido de todos os tempos, com mais títulos mundiais?",
     answers: [
-      { option: "A) Grama", correct: false },
-      { option: "B) Asfalto", correct: false },
-      { option: "C) Areia", correct: true },
-      { option: "D) Terra batida", correct: false },
-      { option: "E) Espanha", correct: false },
+      { option: "A) Alessandro Calbucci", correct: true },
+      { option: "B) Rafael Nadal", correct: false },
+      { option: "C) Mattia Spoto", correct: false },
+      { option: "D) Vinicius Font", correct: false },
+      { option: "E) Marcus Ferreira ", correct: false },
     ],
   },
   {
@@ -52,13 +52,13 @@ export default [
     ],
   },
   {
-    question: "Qual destes equipamentos é essencial para a prática do beach tennis?",
+    question: "Qual é a diferença principal entre a técnica de saque no beach tennis e no tênis de quadra?",
     answers: [
-      { option: "A) Capacete", correct: false },
-      { option: "B) Mãos", correct: false },
-      { option: "C) Raquete", correct: true },
-      { option: "D) Pés", correct: false },
-      { option: "E) Luvas", correct: false },
+      { option: "aA) A posição dos pés", correct: false },
+      { option: "B) A altura da rede", correct: false },
+      { option: "C) Raquete", correct: false },
+      { option: "D) A superfície de jogo", correct: false },
+      { option: "E) A ausência de quique da bolas", correct: true },
     ],
   },
   {
