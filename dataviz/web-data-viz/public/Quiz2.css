@@ -16,7 +16,7 @@ body {
   flex-direction: column;
   gap: 5px;
   /* background: linear-gradient(90deg, rgba(91,30,159,1) 0%, rgba(77,39,182,1) 100%); */
-background-image: url(./assets/beach\ tennis.jpg);
+background-image: url(./assets/baixar\ \(6\).jpeg);
 background-repeat: no-repeat;
 background-size: cover;
 
@@ -24,7 +24,6 @@ background-size: cover;
 
 body h2 {
   color: rgb(0, 0, 0);
-
 }
 
 main {
