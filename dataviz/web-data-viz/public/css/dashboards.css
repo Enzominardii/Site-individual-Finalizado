@@ -338,18 +338,18 @@ body {
 
 canvas {
   display: flex;
-margin-left: 430px;
+margin-left: 130px;
 margin-top: 55px;
   padding: 20px;
-  width: 70% !important;
-  height: 700px !important;
+  width: 80% !important;
+  height: 400px !important;
 }
 
 /* PAGINA DOS GRÁFICOS 2023 */
 
 .janela {
   display: flex;
-  /* width: 100vw; */
+  /* width: 100vw;  */
 }
 
 .header-left a {
