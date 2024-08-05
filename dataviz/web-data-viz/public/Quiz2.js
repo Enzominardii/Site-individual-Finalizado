@@ -33,7 +33,6 @@ function nextQuestion(e) {
     finish();
   }
 }
-
 function finish() {
   textFinish.innerHTML = `Você acertou ${questionsCorrect} de ${questions.length}`;
   content.style.display = "none";
@@ -41,7 +40,7 @@ function finish() {
   const fkUsuario = sessionStorage.ID_USUARIO;  
 
   // Envia a pontuação para o servidor
-  fetch("/usuarios/registrarQuiz", {
+  fetch("/api/ranking", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -60,6 +59,7 @@ function finish() {
     console.error("Erro ao registrar pontuação:", error);
   });
 }
+
 
 function loadQuestion() {
   spnQtd.innerHTML = `${currentIndex + 1}/${questions.length}`;

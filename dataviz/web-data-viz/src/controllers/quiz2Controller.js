@@ -1,14 +1,9 @@
+var quiz2Model = require("../models/quiz2Model");
 
-// quiz2 é aonde esta armazenando e mandando as informacoes do quiz para o banco de dados 
+function ranking(req, res) {
+    console.log("Recuperando ranking de pontuações");
 
-var medidaModel = require("../models/medidaModel");
-
-function buscarPontuacoesPorQuiz(req, res) {
-    var Id_usuario = req.params.Id_usuario;
-
-    console.log(`Recuperando pontuações do quiz ${Id_usuario}`);
-
-    medidaModel.buscarPontuacoesPorQuiz(Id_usuario)
+    quiz2Model.ranking()
         .then(function (resultado) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado);
@@ -17,12 +12,11 @@ function buscarPontuacoesPorQuiz(req, res) {
             }
         })
         .catch(function (erro) {
-            console.log("Houve um erro ao buscar as pontuações:", erro);
-            res.status(500).json({ error: "Erro ao buscar pontuações do quiz" });
+            console.log("Houve um erro ao buscar o ranking:", erro);
+            res.status(500).json({ error: "Erro ao buscar o ranking de pontuações" });
         });
 }
 
 module.exports = {
-    buscarPontuacoesPorQuiz
+    ranking
 };
-

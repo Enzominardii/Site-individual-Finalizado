@@ -43,14 +43,9 @@ fkQuiz int,
 foreign key (fkQuiz) references quiz(idQuiz)
 );
 
--- select * from pontuacao;
-
--- SELECT 
-     --        p.qtdAcertos, 
-      --      u.nome as nomeUsuario 
-      --  FROM 
-      --      pontuacao as p
-     --   JOIN 
-       --     usuario as u ON p.fkUsuario = u.id
-     --   WHERE 
-     --      u.id = 4;
+create table pontuacaoranking(
+idPontuacao int primary key auto_increment,
+qtdAcertos int,
+fkUsuario int,
+foreign key (fkUsuario) references usuario(id)
+);
