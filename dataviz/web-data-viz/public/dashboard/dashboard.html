@@ -26,14 +26,15 @@
         <ul>
             <li>
                 <span class="title"
-                    style="color: cornsilk; font-size: large; text-align: center;padding-left: 80px; font-size: 30px;"><b>BeachLife</b></span>
+                    style="color: cornsilk; font-size: large; text-align: center;padding-left: 80px; font-size: 30px;"><b>
+                        BeachLife</b></span>
             </li><br>
             <li class="list">
                 <div class="hello">
                     <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
                 </div>
             </li><br>
-
+        
             <li class="list">
                 <a href="cards.html">
                     <span class="icon"><ion-icon name="tennisball-outline"></ion-icon></span>
@@ -41,15 +42,21 @@
                 </a>
             </li>
             <li class="list">
-                <a href="../Quiz.html">
+                <a href="./Quiz.html">
                     <span class="icon"><ion-icon name="clipboard-outline"></ion-icon></span>
                     <span class="title">Quiz basico geral</span>
                 </a>
             </li>
             <li class="list">
-                <a href="../Quiz2.html">
+                <a href="./Quiz2.html">
                     <span class="icon"><ion-icon name="clipboard-outline"></ion-icon></span>
                     <span class="title">Quiz Marcas</span>
+                </a>
+            </li>
+            <li class="list">
+                <a href="./ranking.html">
+                    <span class="icon"><ion-icon name="cellular-outline"></ion-icon></span>
+                    <span class="title">Gráfico ranking</span>
                 </a>
             </li>
             <li class="list active">
@@ -73,7 +80,6 @@
             </li>
         </ul>
     </div>
-    </div>
 
     <div class="content">
         <label for="quizSelect"></label>
@@ -90,77 +96,83 @@
 
 </body>
 <script>
-    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
-    // Defina chartInstance como null
-    let chartInstance = null;
 
-    function obterDadosGrafico() {
-        const Id_usuario = Number(sessionStorage.ID_USUARIO)
-        fetch(`/medidas/quiz/${Id_usuario}`, { cache: 'no-store' }).then(function (response) {
-            if (response.ok) {
-                response.json().then(function (resposta) {
-                    plotarGrafico(resposta);
-                });
-            } else {
-                console.error('Nenhum dado encontrado ou erro na API');
+    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+let idUsuario = sessionStorage.ID_USUARIO; // Assuming ID_USUARIO is set in session storage
+
+function obterDadosGrafico() {
+    fetch(`/medidas/quiz/${idUsuario}`, { cache: 'no-store' })
+        .then(response => {
+            console.log('Resposta recebida:', response);
+            if (!response.ok) {
+                throw new Error(`Erro ao buscar dados do quiz: ${response.status} - ${response.statusText}`);
             }
-        }).catch(function (error) {
-            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            return response.json();
+        })
+        .then(data => {
+            console.log('Dados recebidos:', data);
+            plotarGrafico(data); // Use a variável data em vez de resposta
+        })
+        .catch(error => {
+            console.error('Erro ao buscar dados do quiz:', error);
+            alert('Ocorreu um erro ao carregar os dados do gráfico. Por favor, tente novamente mais tarde.');
+            throw error;
         });
+}
+let chartInstance = null; // Declarar chartInstance como null
+
+function plotarGrafico(resposta) {
+    const ctx = document.getElementById('myChartCanvas').getContext('2d');
+
+    // Verifique se a resposta não está vazia antes de prosseguir
+    if (resposta.length === 0) {
+        console.error('Resposta da API vazia');
+        return;
     }
 
-    function plotarGrafico(resposta) {
-        const ctx = document.getElementById('myChartCanvas').getContext('2d');
-
-        // Verifique se a resposta não está vazia antes de prosseguir
-        if (resposta.length === 0) {
-            console.error('Resposta da API vazia');
-            return;
-        }
-
-        // Mapeie os dados da resposta corretamente
-        // const erros esta setada com o valor 8 que condiz com o numero de questoes existentes no quiz
+    // Mapeie os dados da resposta corretamente
+    // const erros esta setada com o valor 8 que condiz com o numero de questoes existentes no quiz
         
-        const acertos = resposta.map(item => item.qtdAcertos);
-        const erros = acertos.map(acerto => 8 - acerto); // Calcula o número de erros
+    const acertos = resposta.map(item => item.qtdAcertos);
+    const erros = acertos.map(acerto => 8 - acerto); // Calcula o número de erros
 
-        const labels = resposta.map((item, index) => `Tentativa ${index + 1}`);
+    const labels = resposta.map((item, index) => `Tentativa ${index + 1}`);
 
-        // Verifique se chartInstance é diferente de null antes de chamar destroy()
-        if (chartInstance !== null) {
-            chartInstance.destroy();
-        }
+    // Verifique se chartInstance é diferente de null antes de chamar destroy()
+    if (chartInstance !== null) {
+        chartInstance.destroy();
+    }
 
-        console.log(acertos);
+    console.log(acertos);
 
-        chartInstance = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Acertos',
-                    data: acertos,
-                    // backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    backgroundColor: 'rgba(0,255,0, 0.2)',
-                    borderColor: 'rgba(0,255,0, 1)',
-                    borderWidth: 1
-                }, {
-                    label: 'Erros',
-                    data: erros,
-                    backgroundColor: 'rgba(199, 52, 52, 0.2)',
-                    borderColor: 'rgba(199, 52, 52, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+    chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Acertos',
+                data: acertos,
+                // backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                backgroundColor: 'rgba(0,255,0, 0.2)',
+                borderColor: 'rgba(0,255,0, 1)',
+                borderWidth: 1
+            }, {
+                label: 'Erros',
+                data: erros,
+                backgroundColor: 'rgba(199, 52, 52, 0.2)',
+                borderColor: 'rgba(199, 52, 52, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
             }
-        });
-    }
+        }
+    });
+}
 </script>
 
 </html>

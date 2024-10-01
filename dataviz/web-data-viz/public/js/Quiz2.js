@@ -40,7 +40,7 @@ function finish() {
   const fkUsuario = sessionStorage.ID_USUARIO;  
 
   // Envia a pontuação para o servidor
-  fetch("/api/ranking", {
+  fetch("/ranking/Grafico", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -48,15 +48,21 @@ function finish() {
     body: JSON.stringify({
       qtdAcertos: questionsCorrect,
       fkUsuario: fkUsuario, 
-      fkQuiz: 1 
+      fkQuiz: 2 
     })
   })
-  .then(response => response.json())
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error(`Erro ao registrar pontuação: ${response.statusText}`);
+    }
+  })
   .then(data => {
     console.log("Resposta do servidor:", data);
   })
   .catch(error => {
-    console.error("Erro ao registrar pontuação:", error);
+    console.error("Erro ao registrar pontuação:", error.message);
   });
 }
 

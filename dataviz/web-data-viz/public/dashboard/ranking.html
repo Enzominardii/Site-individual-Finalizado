@@ -1,27 +1,26 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
-    <link rel="shortcut icon" href="../assets/saque.jpeg" type="image/x-icon">
+    <link rel="icon" href="../assets/saque.jpeg">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AquaTech | Página Inicial</title>
-
-    
+    <title>Beachlife | Dashboard</title>
     <link rel="stylesheet" href="./../css/dashboards.css">
     <link rel="stylesheet" href="./../css/estilo.css" />
     <script src="../js/sessao.js"></script>
-
+    <script src="./../js/alerta.js"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link
         href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://kit.fontawesome.com/9f7414eb10.js" crossorigin="anonymous"></script>
 </head>
 
-<body onload=" ListarInfosDeUm()" style="background-color: #161618;">
- 
+
+<body style="background-color: white;">
 
     <div class="navigation">
         <ul>
@@ -36,7 +35,7 @@
                 </div>
             </li><br>
         
-            <li class="list active">
+            <li class="list">
                 <a href="cards.html">
                     <span class="icon"><ion-icon name="tennisball-outline"></ion-icon></span>
                     <span class="title">Introdução</span>
@@ -54,7 +53,7 @@
                     <span class="title">Quiz Marcas</span>
                 </a>
             </li>
-            <li class="list">
+            <li class="list active">
                 <a href="./ranking.html">
                     <span class="icon"><ion-icon name="cellular-outline"></ion-icon></span>
                     <span class="title">Gráfico ranking</span>
@@ -81,78 +80,49 @@
             </li>
         </ul>
     </div>
-        <div class="dash-right">
 
-            <div class="avisos">
-                <div class="container">
-                    <h1>Editar um aviso</h1><br><br><br><br><br></br><br><br><br><br>
-
-                    <div class="div-form">
-                        <!-- <label>
-                            IDENTIFICAÇÃO:
-                            <br>
-                            <input id="input_id" maxlength="100" type="text" style="color: rgb(196, 196, 196)" disabled>
-                        </label>
-                        <label>
-                            Autor:
-                            <br>
-                            <input id="input_nome" maxlength="100" type="text" style="color: rgb(196, 196, 196)"
-                                disabled>
-                        </label> -->
-                        <label>
-                            Título:
-                            <br>
-                            <input id="input_titulo" maxlength="100" type="text" style="color: rgb(196, 196, 196)">
-                        </label>
-                        <br>
-                        <label>
-                            Descrição (máximo de 250 caracteres):
-                            <br>
-                            <textarea id="textarea_descricao" maxlength="250" rows="5"></textarea>
-                        </label>
-                        <br>
-                        <button onclick="editar()">Editar</button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+    <div class="content">
+        <!-- ranking.html -->
+<!-- Remove the Node.js code from here -->
+<select id="quizSelect" onchange="obterDadosGrafico()" style="margin-left: 10vw;">
+    <option value="0" selected> Mostrar grafico</option>
+    <option value="1">Ranking Marcas</option>
+  </select>
+  <div class="graph-container">
+    <canvas id="myChartCanvas" class="canvas-container"></canvas>
+  </div>
+  
+  <script src="script.js"></script>
     </div>
+
 </body>
+<script>
+// script.js
+async function obterDadosGrafico() {
+  try {
+    const response = await fetch('/api/ranking/grafico');
+    const graphData = await response.json();
+    // Use the graph data to create a chart using Chart.js
+    const ctx = document.getElementById('myChartCanvas').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: graphData,
+      options: {
+        title: 'Ranking dos 3 usuários que mais acertaram alternativas',
+        xaxis: {
+          title: 'Usuário'
+        },
+        yaxis: {
+          title: 'Pontuação'
+        }
+      }
+    });
+  } catch (error) {
+    console.error('Erro ao obter dados do gráfico:', error);
+  }
+}
+</script>
 
 </html>
-
-<script>
-    function listarInfosDeUm() {
-        console.log("Criar função de trazer informações de post escolhido");
-    }
-
-    function editar() {
-        fetch(`/avisos/editar/${sessionStorage.getItem("ID_POSTAGEM_EDITANDO")}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                descricao: textarea_descricao.value
-            })
-        }).then(function (resposta) {
-
-            if (resposta.ok) {
-                window.alert("Post atualizado com sucesso pelo usuario de email: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
-                window.location = "/dashboard/mural.html"
-            } else if (resposta.status == 404) {
-                window.alert("Deu 404!");
-            } else {
-                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
-            }
-        }).catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-        });
-    }
-
-</script>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-<script> b_usuario.innerHTML = sessionStorage.NOME_USUARIO;</script>
-

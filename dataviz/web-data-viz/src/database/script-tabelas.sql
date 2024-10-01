@@ -30,8 +30,18 @@ idQuiz int primary key,
 nomeQuiz varchar(45), 
 qtdPerguntas int);
 
+create table quiz2(
+idQuiz int primary key,
+nomeQuiz varchar(45), 
+qtdPerguntas int);
+
+
 insert into quiz value
 (1, 'Quiz sobre Beach Tennis', 8);
+
+insert into quiz value
+(2, 'Quiz Marcas de Beach Tennis', 8);
+
 
 
 create table pontuacao(
@@ -48,4 +58,5 @@ idPontuacao int primary key auto_increment,
 qtdAcertos int,
 fkUsuario int,
 foreign key (fkUsuario) references usuario(id)
+foreign key (fkQuiz) references quiz2(idQuiz)
 );

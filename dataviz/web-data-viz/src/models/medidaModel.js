@@ -16,7 +16,7 @@ function buscarPontuacoesPorQuiz(Id_usuario) {
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
 
-    return database.executar(instrucaoSql);
+    return database.executar(instrucaoSql, [Id_usuario]);
 }
 
 module.exports = {

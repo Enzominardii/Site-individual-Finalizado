@@ -1,5 +1,5 @@
 // Definindo o ambiente de processo
-// var ambiente_processo = 'producao';
+var ambiente_processo = 'producao';
 var ambiente_processo = 'desenvolvimento';
 
 var caminho_env = ambiente_processo === 'producao' ? '.env' : '.env.dev';
@@ -24,7 +24,7 @@ var aquariosRouter = require("./src/routes/aquarios");
 var empresasRouter = require("./src/routes/empresas");
 var rankingRoutes = require('./src/routes/rankingRoutes');
 
-// Middleware para servir arquivos estáticos
+// Middleware para servir arquivos 0,estáticos
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json());
@@ -39,11 +39,8 @@ app.use("/avisos", avisosRouter);
 app.use("/medidas", medidasRouter);
 app.use("/aquarios", aquariosRouter);
 app.use("/empresas", empresasRouter);
-app.use('/api/ranking', rankingRoutes); // Certifique-se de que esta rota está configurada
+app.use("/ranking", rankingRoutes); 
 
-// app.get('/ranking', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'public', 'ranking.html'));
-// });
 
 app.post('/api/ranking', async (req, res) => {
     const { qtdAcertos, fkUsuario } = req.body;
@@ -62,7 +59,20 @@ app.post('/api/ranking', async (req, res) => {
     }
   });
   
+// App.js
+app.get('/api/ranking/grafico', async (req, res) => {
+  try {
+    const resultado = await quiz2Model.ranking();
+    const top3Users = resultado.slice(0, 3); // get top 3 users
+    const usernames = top3Users.map(user => user.nome);
+    const scores = top3Users.map(user => user.qtdAcertos);
 
+    res.json({ labels: usernames, data: scores });
+  } catch (error) {
+    console.error('Erro ao gerar gráfico:', error);
+    res.status(500).json({ error: 'Erro ao gerar gráfico' });
+  }
+});
 
 // Iniciando o servidor
 app.listen(PORTA_APP, function () {
