@@ -63,9 +63,11 @@ function finish() {
   })
   .catch(error => {
     console.error("Erro ao registrar pontuação:", error.message);
+    // Adicione aqui o código para lidar com o erro
+    // Por exemplo, você pode exibir uma mensagem de erro para o usuário
+    alert("Erro ao registrar pontuação: " + error.message);
   });
 }
-
 
 function loadQuestion() {
   spnQtd.innerHTML = `${currentIndex + 1}/${questions.length}`;

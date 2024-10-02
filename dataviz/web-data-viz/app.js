@@ -22,7 +22,8 @@ var avisosRouter = require("./src/routes/avisos");
 var medidasRouter = require("./src/routes/medidas");
 var aquariosRouter = require("./src/routes/aquarios");
 var empresasRouter = require("./src/routes/empresas");
-var rankingRoutes = require('./src/routes/rankingRoutes');
+// var rankingRoutes = require('./src/routes/rankingRoutes');
+var quiz2Model = require("./src/routes/rankingRoutes");
 
 // Middleware para servir arquivos 0,estáticos
 app.use(express.static(path.join(__dirname, 'public')));
@@ -39,7 +40,7 @@ app.use("/avisos", avisosRouter);
 app.use("/medidas", medidasRouter);
 app.use("/aquarios", aquariosRouter);
 app.use("/empresas", empresasRouter);
-app.use("/ranking", rankingRoutes); 
+app.use("/ranking", quiz2Model); 
 
 
 app.post('/api/ranking', async (req, res) => {
@@ -60,9 +61,12 @@ app.post('/api/ranking', async (req, res) => {
   });
   
 // App.js
+var { ranking } = require("./src/models/quiz2Model");
+
 app.get('/api/ranking/grafico', async (req, res) => {
   try {
-    const resultado = await quiz2Model.ranking();
+    const fkQuiz2 = 2; // substitua pelo valor correto
+    const resultado = await ranking(fkQuiz2);
     const top3Users = resultado.slice(0, 3); // get top 3 users
     const usernames = top3Users.map(user => user.nome);
     const scores = top3Users.map(user => user.qtdAcertos);

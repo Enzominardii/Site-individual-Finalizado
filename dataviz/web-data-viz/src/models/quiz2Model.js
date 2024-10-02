@@ -1,15 +1,16 @@
 var database = require("../database/config");
 
-function ranking() {
-    var instrucaoSql = `
-      SELECT usuario.id, usuario.nome, pontuacaoranking.qtdAcertos
-      FROM usuario
-      JOIN pontuacaoranking ON usuario.id = pontuacaoranking.fkUsuario
-      WHERE pontuacaoranking.fkQuiz = 2
-      ORDER BY pontuacaoranking.qtdAcertos DESC
-      LIMIT 3;`;
-  
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-  
-    return database.executar(instrucaoSql);
-  }
+function ranking(fkQuiz2) {
+  var instrucaoSql = `
+    SELECT fkUsuario, qtdAcertos
+FROM pontuacaoranking
+ORDER BY qtdAcertos ASC
+LIMIT 3;
+`;
+
+  console.log("Executando a instrução SQL: \n" + instrucaoSql);
+
+  return database.executar(instrucaoSql, [fkQuiz2]);
+}
+
+module.exports = { ranking };

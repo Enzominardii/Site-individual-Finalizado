@@ -39,7 +39,7 @@ qtdPerguntas int);
 insert into quiz value
 (1, 'Quiz sobre Beach Tennis', 8);
 
-insert into quiz value
+insert into quiz2 value
 (2, 'Quiz Marcas de Beach Tennis', 8);
 
 
@@ -57,6 +57,7 @@ create table pontuacaoranking(
 idPontuacao int primary key auto_increment,
 qtdAcertos int,
 fkUsuario int,
-foreign key (fkUsuario) references usuario(id)
-foreign key (fkQuiz) references quiz2(idQuiz)
+foreign key (fkUsuario) references usuario(id),
+fkQuiz2 int,
+foreign key (fkQuiz2) references quiz2(idQuiz)
 );

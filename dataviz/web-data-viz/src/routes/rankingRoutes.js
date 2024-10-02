@@ -9,15 +9,10 @@ function validarDados(dados) {
 }
 
 router.post('/Grafico', async (req, res) => {
-    const { qtdAcertos, fkUsuario, fkQuiz } = req.body;
-  
-    if (typeof qtdAcertos !== 'number' || typeof fkUsuario !== 'number' || typeof fkQuiz !== 'number') {
-      return res.status(400).json({ error: 'Dados inválidos' });
-    }
-  
-    const query = 'INSERT INTO pontuacaoranking (qtdAcertos, fkUsuario, fkQuiz) VALUES (?, ?, ?)';
     try {
-      await executar({ sql: query, values: [qtdAcertos, fkUsuario, fkQuiz] });
+      const { qtdAcertos, fkUsuario, fkQuiz2 } = req.body;
+      const query = 'INSERT INTO pontuacaoranking (qtdAcertos, fkUsuario, fkQuiz2) VALUES (?, ?, ?)';
+      await executar({ sql: query, values: [qtdAcertos, fkUsuario, fkQuiz2] });
       res.status(200).json({ message: 'Pontuação salva com sucesso!' });
     } catch (error) {
       console.error('Erro ao registrar pontuação:', error);

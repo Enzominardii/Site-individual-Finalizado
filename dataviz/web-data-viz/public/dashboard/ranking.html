@@ -82,8 +82,7 @@
     </div>
 
     <div class="content">
-        <!-- ranking.html -->
-<!-- Remove the Node.js code from here -->
+
 <select id="quizSelect" onchange="obterDadosGrafico()" style="margin-left: 10vw;">
     <option value="0" selected> Mostrar grafico</option>
     <option value="1">Ranking Marcas</option>
@@ -97,16 +96,33 @@
 
 </body>
 <script>
-// script.js
+
 async function obterDadosGrafico() {
   try {
     const response = await fetch('/api/ranking/grafico');
     const graphData = await response.json();
-    // Use the graph data to create a chart using Chart.js
+    plotarGraficoRanking(graphData); 
+  } catch (error) {
+    console.error('Erro ao obter dados do gráfico:', error);
+  }
+}
+
+async function plotarGraficoRanking(graphData) {
+  try {
     const ctx = document.getElementById('myChartCanvas').getContext('2d');
+
     new Chart(ctx, {
       type: 'bar',
-      data: graphData,
+      data: {
+        labels: graphData.labels,
+        datasets: [{
+          label: 'Pontuação',
+          data: graphData.data,
+          backgroundColor: 'rgba(0, 0, 255, 0.2)',
+          borderColor: 'rgba(0, 0, 255, 1)',
+          borderWidth: 1
+        }]
+      },
       options: {
         title: 'Ranking dos 3 usuários que mais acertaram alternativas',
         xaxis: {
