@@ -20,20 +20,20 @@
 </head>
 
 
-<body style="background-color: white;">
+<body style="background-image: linear-gradient(to right, #000000, #0c0b0c, #141414, #1b1b1b, #212122); height: 100vh; width: 100vw; overflow-x: hidden;">
 
     <div class="navigation">
         <ul>
-            <li>
-                <span class="title"
-                    style="color: cornsilk; font-size: large; text-align: center;padding-left: 80px; font-size: 30px;"><b>
-                        BeachLife</b></span>
-            </li><br>
-            <li class="list">
-                <div class="hello">
-                    <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
-                </div>
-            </li><br>
+          <li>
+            <span class="title"
+                style="color: cornsilk; font-size: large; text-align: center;padding-left: 80px; font-size: 30px;"><b>
+                    BeachLife</b></span>
+        </li><br>
+        <li class="list">
+            <div class="hello">
+                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+            </div>
+        </li><br>
         
             <li class="list">
                 <a href="cards.html">
@@ -83,12 +83,12 @@
 
     <div class="content">
 
-<select id="quizSelect" onchange="obterDadosGrafico()" style="margin-left: 10vw;">
-    <option value="0" selected> Mostrar grafico</option>
+<select id="quizSelect" onchange="buscarDadosGrafico()" style="margin-left: 10vw;">
+    <option value="0" selected disabled> Mostrar grafico</option>
     <option value="1">Ranking Marcas</option>
   </select>
   <div class="graph-container">
-    <canvas id="myChartCanvas" class="canvas-container"></canvas>
+    <canvas id="myChartCanvas" class="canvas-container" style="width: 70vw; height: 65vh;"></canvas>
   </div>
   
   <script src="script.js"></script>
@@ -96,42 +96,49 @@
 
 </body>
 <script>
+  b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+let idUsuario = sessionStorage.ID_USUARIO; // Assuming ID_USUARIO is set in session storage
 
-async function obterDadosGrafico() {
+async function buscarDadosGrafico() {
   try {
-    const response = await fetch('/api/ranking/grafico');
-    const graphData = await response.json();
-    plotarGraficoRanking(graphData); 
+    const response = await fetch('/ranking/grafico');
+    const resposta = await response.json();
+    console.log(resposta)
+    plotarGraficoRanking(resposta); 
   } catch (error) {
     console.error('Erro ao obter dados do gráfico:', error);
   }
 }
 
-async function plotarGraficoRanking(graphData) {
+async function plotarGraficoRanking(resposta) {
   try {
     const ctx = document.getElementById('myChartCanvas').getContext('2d');
+
+    const labels = resposta.map(item => item.nome);
+    const data = resposta.map(item => item.qtdAcertos);
+
+    // Array de cores personalizado para os três primeiros lugares
+    const colors = ['rgb(212,175,55)', '#c0c0c0', 'rgb(110,77,37)'];
+
+    // Preenche o restante das cores com uma cor padrão (ex: cinza)
+    const otherColors = Array(data.length - 3).fill('gray');
+
+    // Combina os arrays de cores
+    const allColors = colors.concat(otherColors);
 
     new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: graphData.labels,
+        labels: labels,
         datasets: [{
           label: 'Pontuação',
-          data: graphData.data,
-          backgroundColor: 'rgba(0, 0, 255, 0.2)',
-          borderColor: 'rgba(0, 0, 255, 1)',
+          data: data,
+          backgroundColor: allColors,
+          borderColor: 'rgba(0, 0, 0, 1)',
           borderWidth: 1
         }]
       },
-      options: {
-        title: 'Ranking dos 3 usuários que mais acertaram alternativas',
-        xaxis: {
-          title: 'Usuário'
-        },
-        yaxis: {
-          title: 'Pontuação'
-        }
-      }
+   
     });
   } catch (error) {
     console.error('Erro ao obter dados do gráfico:', error);

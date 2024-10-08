@@ -2,7 +2,7 @@
 
 var database = require("../database/config");
 
-function buscarPontuacoesPorQuiz(Id_usuario) {
+function buscarPontuacoesPorQuiz(idUsuario) {
     var instrucaoSql = `
         SELECT 
             p.qtdAcertos, 
@@ -12,14 +12,13 @@ function buscarPontuacoesPorQuiz(Id_usuario) {
         JOIN 
             usuario u ON p.fkUsuario = u.id
         WHERE 
-        u.id =  ${Id_usuario};`
+        u.id = ${idUsuario};`
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
 
-    return database.executar(instrucaoSql, [Id_usuario]);
+    return database.executar(instrucaoSql);
 }
 
 module.exports = {
     buscarPontuacoesPorQuiz
 };
-

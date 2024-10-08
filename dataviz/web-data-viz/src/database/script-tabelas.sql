@@ -11,7 +11,8 @@ CREATE TABLE usuario (
 	senha VARCHAR(50)
 );
 
- select * from usuario;
+-- select * from usuario;
+
  
 
 
@@ -61,3 +62,12 @@ foreign key (fkUsuario) references usuario(id),
 fkQuiz2 int,
 foreign key (fkQuiz2) references quiz2(idQuiz)
 );
+
+
+-- SELECT Ranking ->
+
+--`SELECT usuario.nome, pontuacaoranking.qtdAcertos
+-- FROM pontuacaoranking
+-- JOIN usuario ON pontuacaoranking.fkUsuario = usuario.id
+-- ORDER BY pontuacaoranking.qtdAcertos DESC
+-- LIMIT 3;`

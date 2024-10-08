@@ -1,7 +1,7 @@
 var medidaModel = require("../models/medidaModel");
 
 function buscarPontuacoesPorQuiz(req, res) {
-    const idUsuario = req.params.Id_usuario; 
+    const idUsuario = req.params.idUsuario; 
     console.log("Recuperando pontuações para o usuário:", idUsuario);
 
     medidaModel.buscarPontuacoesPorQuiz(idUsuario)
@@ -17,6 +17,7 @@ function buscarPontuacoesPorQuiz(req, res) {
             res.status(500).json({ error: "Erro ao buscar as pontuações" });
         });
 }
+
 
 module.exports = {
     buscarPontuacoesPorQuiz,

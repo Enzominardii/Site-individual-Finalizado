@@ -284,11 +284,11 @@ body {
   padding: 0 30% 0 30%;
 }
 
-.graph {
+/* .graph {
   width: 70%;
   margin: auto;
   padding-top: 10px;
-}
+} */
 
 .tituloGraficos {
   color: rgb(216, 216, 216);
@@ -339,10 +339,9 @@ body {
 canvas {
   display: flex;
 margin-left: 130px;
-margin-top: 55px;
-  padding: 20px;
-  width: 80% !important;
-  height: 400px !important;
+margin-top: 85px;
+  padding: 40px;
+ 
 }
 
 /* PAGINA DOS GRÁFICOS 2023 */
@@ -452,15 +451,11 @@ margin-top: 55px;
   flex-direction: column;
   align-items: center;
 }
-
+/* 
 #myChartCanvas {
   width: 80%; 
   height: 400px; 
-}
-
-
-
-
+} */
 
 
 

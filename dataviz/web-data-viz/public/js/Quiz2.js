@@ -40,7 +40,7 @@ function finish() {
   const fkUsuario = sessionStorage.ID_USUARIO;  
 
   // Envia a pontuação para o servidor
-  fetch("/ranking/Grafico", {
+  fetch("/ranking/grafico", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

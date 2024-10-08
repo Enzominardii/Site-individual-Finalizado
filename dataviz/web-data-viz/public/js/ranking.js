@@ -1,7 +1,7 @@
 // ranking.js
 
 document.addEventListener("DOMContentLoaded", () => {
-    fetch('/api/ranking')
+    fetch('/grafico')
         .then(response => response.json())
         .then(data => {
             const labels = data.map(item => item.nome);

@@ -1,16 +1,16 @@
-var database = require("../database/config");
+// var database = require("../database/config");
 
-function ranking(fkQuiz2) {
-  var instrucaoSql = `
-    SELECT fkUsuario, qtdAcertos
-FROM pontuacaoranking
-ORDER BY qtdAcertos ASC
-LIMIT 3;
-`;
+// function ranking(fkQuiz2) {
+//   var instrucaoSql = `
+//     SELECT fkUsuario, qtdAcertos
+// FROM pontuacaoranking
+// ORDER BY qtdAcertos ASC
+// LIMIT 3;
+// `;
 
-  console.log("Executando a instrução SQL: \n" + instrucaoSql);
+//   console.log("Executando a instrução SQL: \n" + instrucaoSql);
 
-  return database.executar(instrucaoSql, [fkQuiz2]);
-}
+//   return database.executar(instrucaoSql, [fkQuiz2]);
+// }
 
-module.exports = { ranking };
+// module.exports = { ranking };

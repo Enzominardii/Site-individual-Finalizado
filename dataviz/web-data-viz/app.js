@@ -23,7 +23,8 @@ var medidasRouter = require("./src/routes/medidas");
 var aquariosRouter = require("./src/routes/aquarios");
 var empresasRouter = require("./src/routes/empresas");
 // var rankingRoutes = require('./src/routes/rankingRoutes');
-var quiz2Model = require("./src/routes/rankingRoutes");
+// var quiz2Model = require("./src/routes/rankingRoutes");
+var rankingRouter = require("./src/routes/ranking")
 
 // Middleware para servir arquivos 0,estáticos
 app.use(express.static(path.join(__dirname, 'public')));
@@ -40,43 +41,9 @@ app.use("/avisos", avisosRouter);
 app.use("/medidas", medidasRouter);
 app.use("/aquarios", aquariosRouter);
 app.use("/empresas", empresasRouter);
-app.use("/ranking", quiz2Model); 
+app.use("/ranking", rankingRouter); 
 
 
-app.post('/api/ranking', async (req, res) => {
-    const { qtdAcertos, fkUsuario } = req.body;
-  
-    if (typeof qtdAcertos !== 'number' || typeof fkUsuario !== 'number') {
-      return res.status(400).json({ error: 'Dados inválidos' });
-    }
-  
-    const query = 'INSERT INTO pontuacaoranking (qtdAcertos, fkUsuario) VALUES (?, ?)';
-    try {
-      await executar({ sql: query, values: [qtdAcertos, fkUsuario] });
-      res.status(200).json({ message: 'Pontuação salva com sucesso!' });
-    } catch (error) {
-      console.error('Erro ao registrar pontuação:', error);
-      res.status(500).json({ error: 'Erro ao salvar a pontuação' });
-    }
-  });
-  
-// App.js
-var { ranking } = require("./src/models/quiz2Model");
-
-app.get('/api/ranking/grafico', async (req, res) => {
-  try {
-    const fkQuiz2 = 2; // substitua pelo valor correto
-    const resultado = await ranking(fkQuiz2);
-    const top3Users = resultado.slice(0, 3); // get top 3 users
-    const usernames = top3Users.map(user => user.nome);
-    const scores = top3Users.map(user => user.qtdAcertos);
-
-    res.json({ labels: usernames, data: scores });
-  } catch (error) {
-    console.error('Erro ao gerar gráfico:', error);
-    res.status(500).json({ error: 'Erro ao gerar gráfico' });
-  }
-});
 
 // Iniciando o servidor
 app.listen(PORTA_APP, function () {

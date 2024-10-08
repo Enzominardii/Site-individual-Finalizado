@@ -150,12 +150,7 @@ margin-right: 25px;
   color: #000000;
 }
 
-/* .barra {
-  color: #fd5f2b;
-  margin-bottom: 15px;
-  margin-right: 10px;
-  height: 0px;
-}  */
+
 
 
 .agora {
@@ -199,7 +194,7 @@ margin-right: 25px;
   font-weight: 800;
 }
 
-/* MISSÃO VISÃO VALORES */
+
 
 .social {
   background-color: #e5e5e5;
@@ -231,15 +226,6 @@ margin-right: 25px;
   align-items: center;
 }
 
-/* FOOTER */
-
- /* .footer {
-  background-image: linear-gradient(to bottom, rgb(249, 238, 88), rgb(249, 238, 88), rgb(243, 225, 107), rgb(249, 234, 118), rgb(246, 241, 154), rgb(252, 248, 170), rgb(248, 246, 175));
-  height: 150px;
-  color: #fff;
-  display: flex;
-  font-size: 15px;
-} */
 
 .footer .container {
   justify-content: center;
@@ -516,34 +502,28 @@ input {
   text-decoration: none;
 }
 
-/* .footer {
-  background-image: linear-gradient(to bottom, rgb(247, 233, 34), rgb(248, 234, 40),
-          rgb(243, 225, 107), rgb(247, 230, 104), rgb(246, 241, 154), rgb(252, 248, 170), rgb(248, 246, 175));
-  padding: 30px 0px;
-  font-family: 'Play', sans-serif;
-  text-align: center;
+/* Estilos para o tamanho do gráfico */
+.graph-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
 }
 
-.footer .row {
-  width: 100%;
-  margin: 1% 0%;
-  padding: 0.6% 0%;
-  color: gray;
-  font-size: 0.8em;
+.canvas-container {
+  width: 60vw;
+  height: 50vh;
+  max-width: 800px;
+  max-height: 600px;
+  transition: width 0.3s, height 0.3s; /* Transição suave ao mudar o tamanho */
 }
 
-.footer .row a {
-  text-decoration: none;
-  color: gray;
-  transition: 0.5s;
+.canvas-container.small {
+  width: 50vw;
+  height: 40vh;
 }
 
-.footer .row a:hover {
-  color: #fff;
+.canvas-container.large {
+  width: 70vw;
+  height: 65vh;
 }
-
-.footer .row a i {
-  font-size: 2em;
-  margin: 0% 1%;
->>>>>>> 6c63efa (Finalização do projeto)
-} */

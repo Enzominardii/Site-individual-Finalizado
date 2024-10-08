@@ -54,7 +54,7 @@ export default [
   {
     question: "Qual é a diferença principal entre a técnica de saque no beach tennis e no tênis de quadra?",
     answers: [
-      { option: "aA) A posição dos pés", correct: false },
+      { option: "A) A posição dos pés", correct: false },
       { option: "B) A altura da rede", correct: false },
       { option: "C) Raquete", correct: false },
       { option: "D) A superfície de jogo", correct: false },
