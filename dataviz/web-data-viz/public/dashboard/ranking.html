@@ -20,21 +20,21 @@
 </head>
 
 
-<body style="background-image: linear-gradient(to right, #000000, #0c0b0c, #141414, #1b1b1b, #212122); height: 100vh; width: 100vw; overflow-x: hidden;">
+<body style="background-color: white;">
 
     <div class="navigation">
         <ul>
-          <li>
-            <span class="title"
-                style="color: cornsilk; font-size: large; text-align: center;padding-left: 80px; font-size: 30px;"><b>
-                    BeachLife</b></span>
-        </li><br>
-        <li class="list">
-            <div class="hello">
-                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
-            </div>
-        </li><br>
-        
+            <li>
+                <span class="title"
+                    style="color: cornsilk; font-size: large; text-align: center;padding-left: 80px; font-size: 30px;"><b>
+                        BeachLife</b></span>
+            </li><br>
+            <li class="list">
+                <div class="hello">
+                    <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+                </div>
+            </li><br>
+
             <li class="list">
                 <a href="cards.html">
                     <span class="icon"><ion-icon name="tennisball-outline"></ion-icon></span>
@@ -53,13 +53,13 @@
                     <span class="title">Quiz Marcas</span>
                 </a>
             </li>
-            <li class="list active">
+            <li class="list">
                 <a href="./ranking.html">
                     <span class="icon"><ion-icon name="cellular-outline"></ion-icon></span>
                     <span class="title">Gráfico ranking</span>
                 </a>
             </li>
-            <li class="list">
+            <li class="list active">
                 <a href="./dashboard.html">
                     <span class="icon"><ion-icon name="cellular-outline"></ion-icon></span>
                     <span class="title">Gráfico</span>
@@ -82,68 +82,130 @@
     </div>
 
     <div class="content">
+        <label for="quizSelect"></label>
+        <select id="quizSelect" onchange="obterDadosGrafico()" style="margin-left: 10vw;">
+            <option value="0" selected disabled> Mostrar grafico</option>
+            <option value="bar">Quiz sobre Beach Tennis</option>
+            <option value="line">Histórico de tentativas</option>
 
-<select id="quizSelect" onchange="buscarDadosGrafico()" style="margin-left: 10vw;">
-    <option value="0" selected disabled> Mostrar grafico</option>
-    <option value="1">Ranking Marcas</option>
-  </select>
-  <div class="graph-container">
-    <canvas id="myChartCanvas" class="canvas-container" style="width: 70vw; height: 65vh;"></canvas>
-  </div>
-  
-  <script src="script.js"></script>
+        </select>
+        <div class="graph-container">
+            <canvas id="myChartCanvas" class="canvas-container" style="width: 70vw; height: 65vh;"></canvas>
+        </div>
     </div>
 
 </body>
 <script>
-  b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
-let idUsuario = sessionStorage.ID_USUARIO; // Assuming ID_USUARIO is set in session storage
 
-async function buscarDadosGrafico() {
-  try {
-    const response = await fetch('/ranking/grafico');
-    const resposta = await response.json();
-    console.log(resposta)
-    plotarGraficoRanking(resposta); 
-  } catch (error) {
-    console.error('Erro ao obter dados do gráfico:', error);
-  }
-}
+    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+    const idUsuario = sessionStorage.ID_USUARIO; // Assumindo ID_USUARIO no session storage
 
-async function plotarGraficoRanking(resposta) {
-  try {
-    const ctx = document.getElementById('myChartCanvas').getContext('2d');
+    function obterDadosGrafico() {
 
-    const labels = resposta.map(item => item.nome);
-    const data = resposta.map(item => item.qtdAcertos);
+        const selectValue = document.getElementById("quizSelect").value; // Obtém o valor do select atual
+        fetch(`/medidas/quiz/${idUsuario}`, { cache: 'no-store' })
+            .then(response => {
+                console.log('Resposta recebida:', response);
+                if (!response.ok) {
+                    throw new Error(`Erro ao buscar dados do quiz: ${response.status} - ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Dados recebidos:', data);
+                plotarGrafico(data, selectValue); // Passa o valor do select para a função plotarGrafico
+            })
+            .catch(error => {
+                console.error('Erro ao buscar dados do quiz:', error);
+                alert('Ocorreu um erro ao carregar os dados do gráfico. Por favor, tente novamente mais tarde.');
+            });
 
-    // Array de cores personalizado para os três primeiros lugares
-    const colors = ['rgb(212,175,55)', '#c0c0c0', 'rgb(110,77,37)'];
+    }
 
-    // Preenche o restante das cores com uma cor padrão (ex: cinza)
-    const otherColors = Array(data.length - 3).fill('gray');
 
-    // Combina os arrays de cores
-    const allColors = colors.concat(otherColors);
 
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: 'Pontuação',
-          data: data,
-          backgroundColor: allColors,
-          borderColor: 'rgba(0, 0, 0, 1)',
-          borderWidth: 1
-        }]
-      },
-   
+
+
+    let chartInstance = null; // Declarar chartInstance como null
+    function plotarGrafico(resposta, tipoGrafico) {
+    const canvas = document.getElementById('myChartCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Verificar se a resposta não está vazia antes de prosseguir
+    if (resposta.length === 0) {
+        console.error('Resposta da API vazia');
+        return;
+    }
+
+    // Atualize as classes de tamanho com base no tipo de gráfico selecionado
+    if (tipoGrafico === 'bar') {
+        canvas.classList.add('large');
+        canvas.classList.remove('small');
+    } else if (tipoGrafico === 'line') {
+        canvas.classList.add('small');
+        canvas.classList.remove('large');
+    } else {
+        canvas.classList.remove('small', 'large');
+    }
+
+    const acertos = resposta.map(item => item.qtdAcertos);
+    const erros = acertos.map(acerto => 8 - acerto); // Calcula o número de erros
+    const labels = resposta.map((item, index) => `Tentativa ${index + 1}`);
+
+    // Verifique se chartInstance é diferente de null antes de chamar destroy()
+    if (chartInstance !== null) {
+        chartInstance.destroy();
+    }
+
+    chartInstance = new Chart(ctx, {
+        type: tipoGrafico, // Use o tipo de gráfico passado como parâmetro
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Acertos',
+                data: acertos,
+                backgroundColor: 'rgba(0,255,0, 0.2)',
+                borderColor: 'rgba(0,255,0, 1)',
+                borderWidth: 1
+            }, {
+                label: 'Erros',
+                data: erros,
+                backgroundColor: 'rgba(199, 52, 52, 0.2)',
+                borderColor: 'rgba(199, 52, 52, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#fff' // Cor das legendas
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#fff' // Cor dos rótulos do eixo x
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.25)' // Cor da grade do eixo x
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#fff' // Cor dos rótulos do eixo y
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.25)' // Cor da grade do eixo y
+                    }
+                }
+            }
+        }
     });
-  } catch (error) {
-    console.error('Erro ao obter dados do gráfico:', error);
-  }
 }
+
+
 </script>
 
 </html>

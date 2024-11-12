@@ -37,18 +37,24 @@ function finish() {
   textFinish.innerHTML = `Você acertou ${questionsCorrect} de ${questions.length}`;
   content.style.display = "none";
   contentFinish.style.display = "flex";
-  const fkUsuario = sessionStorage.ID_USUARIO;  
+  
+  // Verifica se o ID_USUARIO existe no sessionStorage
+  const fkUsuario = sessionStorage.getItem("ID_USUARIO");  
+  if (!fkUsuario) {
+    alert("Erro: Usuário não encontrado.");
+    return;
+  }
 
   // Envia a pontuação para o servidor
-  fetch("/ranking/grafico", {
-    method: "POST",
+  fetch("/ranking/quiz/inserir", {
+    method: "POST",  
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
       qtdAcertos: questionsCorrect,
       fkUsuario: fkUsuario, 
-      fkQuiz: 2 
+      fkQuiz: 2  
     })
   })
   .then(response => {
@@ -63,11 +69,10 @@ function finish() {
   })
   .catch(error => {
     console.error("Erro ao registrar pontuação:", error.message);
-    // Adicione aqui o código para lidar com o erro
-    // Por exemplo, você pode exibir uma mensagem de erro para o usuário
     alert("Erro ao registrar pontuação: " + error.message);
   });
 }
+
 
 function loadQuestion() {
   spnQtd.innerHTML = `${currentIndex + 1}/${questions.length}`;

@@ -1,10 +1,10 @@
 var rankingModel = require("../models/rankingModel")
 
 function buscarDadosGrafico(req, res) {
-    const idUsuario = req.params.Id_usuario; 
+    const idUsuario = req.params.idUsuario; 
     console.log("Recuperando pontuações para o usuário:", idUsuario);
 
-    rankingModel.buscarDadosGrafico()
+    rankingModel.buscarDadosGrafico(idUsuario)
     .then( (resposta) => {
         res.status(200).json(resposta)
     }) .catch ( erro => {
@@ -12,5 +12,19 @@ function buscarDadosGrafico(req, res) {
     })
 }
 
+function inserirDadosQuiz(req, res) {
+    const qtdAcertos = req.body.qtdAcertos; 
+    const fkUsuario = req.body.fkUsuario;
+    const fkQuiz = req.body.fkQuiz;
 
-module.exports = { buscarDadosGrafico };
+    console.log("Inserindo dados para o usuario de id: ", fkUsuario);
+
+    rankingModel.inserirDadosQuiz(qtdAcertos, fkUsuario, fkQuiz)
+    .then( (resposta) => {
+        res.status(200).json(resposta)
+    }) .catch ( erro => {
+        console.log("#ERRO: ", erro)
+    })
+}
+
+module.exports = { buscarDadosGrafico, inserirDadosQuiz };
